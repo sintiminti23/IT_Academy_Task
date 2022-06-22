@@ -1,0 +1,8 @@
+*Extract from 'ps' output pids of all the processes run from the current user
+~$ ps | grep -oE '[0-9]{4}'
+
+*Extract all ip addresses(ipv4 and ipv6) assigned to the host from ifconfig output
+
+~$ ifconfig | grep inet[^6] | sort | awk '{print $2}' > file_name
+
+~$ ifconfig | grep inet6 | sort | awk '{print $2}' >> file_name
