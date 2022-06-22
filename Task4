@@ -1,0 +1,39 @@
+Write a bash script to check:
+    • Number of CPU Cores - ~$ nproc
+      Output: 1
+    • Disk space:
+    Step One - ~$ df
+    Step Two - $ df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }'
+    Step Three - 
+    #!/bin/sh
+df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
+do
+  echo $output
+  usep=$(echo $output | awk '{ print $1}' | cut -d'%' -f1  )
+  partition=$(echo $output | awk '{ print $2 }' )
+  if [ $usep -ge 90 ]; then
+    echo "Running out of space \"$partition ($usep%)\" on $(hostname) as on $(date)" |
+     mail -s "Alert: Almost out of disk space $usep%" you@somewhere.com
+  fi
+done
+  • Size of RAM:
+  $ free -g
+  
+  OUTPUT:
+ 
+              total        used        free      shared  buff/cache   available
+Mem:             24           0          23           0           1          23
+Swap:             7           0           7
+  
+  •provide information about the last users which were login on the host - 
+  $ last --fullnames
+  
+  •calculate the number of active python/perl process
+  I was not able to do it 
+  
+  
+  •create a cron job which will send a report information on email address
+  first install mailutils , then configure it, however it was easier with the commant $ echo "testing message" | mail -s "message subject" username@example.com
+    
+    
+    
